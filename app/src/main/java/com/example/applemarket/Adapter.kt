@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ActivityMainBinding
 import com.example.applemarket.databinding.RecyclerviewItemBinding
+import java.text.DecimalFormat
 
 class Adapter(val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
     private var onClickListener : OnClickListener? = null
@@ -18,10 +19,12 @@ class Adapter(val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holde
 
     override fun onBindViewHolder(holder: Adapter.Holder, position: Int) {
         val item = items[position]
+        val money = item.itemPrice
+        val format = DecimalFormat("#,###")
         holder.imageView.setImageResource(item.itemImage)
         holder.titleText.text = item.itemTitle
         holder.address.text = item.itemAddress
-        holder.price.text = item.itemPrice
+        holder.price.text = format.format(money)
         holder.comment.text = item.itemcomment.toString()
         holder.heart.text = item.itemheartCount.toString()
     }

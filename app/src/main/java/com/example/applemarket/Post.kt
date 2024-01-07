@@ -8,10 +8,10 @@ import kotlinx.parcelize.Parcelize
 data class Post(
     val itemImage: Int,
     val itemTitle: String,
-    val itemAddress: String,
-    val itemPrice: String,
     val itemInfo: String,
     val itemnickname: String,
+    val itemPrice: Int,
+    val itemAddress: String,
     val itemheartCount: Int,
     val itemcomment: Int
 ) : Parcelable
