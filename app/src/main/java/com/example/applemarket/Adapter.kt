@@ -19,6 +19,7 @@ class Adapter(val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holde
 
     override fun onBindViewHolder(holder: Adapter.Holder, position: Int) {
         val item = items[position]
+        //1000단위 마다 콤마(,) 출력
         val money = item.itemPrice
         val format = DecimalFormat("#,###")
 
