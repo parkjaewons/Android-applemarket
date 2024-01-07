@@ -63,14 +63,14 @@
 
     <ImageView
         android:id="@+id/iv_comment"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_comment"
         app:layout_constraintTop_toTopOf="@+id/tv_comment"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/chat" />
 
     <TextView
         android:id="@+id/tv_comment"
@@ -85,14 +85,14 @@
 
     <ImageView
         android:id="@+id/iv_heart"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_heart"
         app:layout_constraintTop_toTopOf="@+id/tv_heart"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/heart" />
 
     <TextView
         android:id="@+id/tv_heart"

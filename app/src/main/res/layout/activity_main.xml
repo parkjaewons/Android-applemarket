@@ -30,9 +30,15 @@
             android:id="@+id/notiButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="199dp"
             android:layout_marginEnd="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/alarm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/spinner"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
