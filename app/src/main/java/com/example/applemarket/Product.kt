@@ -12,7 +12,10 @@ object Product {
                 1000,
                 "서울 서대문구 창천동",
                 13,
-                25
+                25,
+                "29.7°C",
+                R.drawable.lv1
+
             )
         )
         productList.add(
@@ -24,7 +27,9 @@ object Product {
                 20000,
                 "인천 계양구 귤현동",
                 8,
-                28
+                28,
+                "35.3°C",
+                R.drawable.lv2
             )
         )
         productList.add(
@@ -36,7 +41,10 @@ object Product {
                 10000,
                 "수성구 범어동",
                 23,
-                5
+                5,
+                "36.5°C",
+                R.drawable.lv3
+
             )
         )
         productList.add(
@@ -48,7 +56,9 @@ object Product {
                 10000,
                 "해운대구 우제2동",
                 14,
-                17
+                17,
+                "36.9°C",
+                R.drawable.lv3
             )
         )
         productList.add(
@@ -60,7 +70,9 @@ object Product {
                 150000,
                 "연제구 연산제8동",
                 22,
-                9
+                9,
+                "40.9°C",
+                R.drawable.lv4
             )
         )
         productList.add(
@@ -72,7 +84,9 @@ object Product {
                 50000,
                 "수원시 영통구 원천동",
                 25,
-                16
+                16,
+                "37.4°C",
+                R.drawable.lv3
             )
         )
         productList.add(
@@ -84,7 +98,9 @@ object Product {
                 150000,
                 "남구 옥동",
                 142,
-                54
+                54,
+                "35.4°C",
+                R.drawable.lv2
             )
         )
         productList.add(
@@ -96,7 +112,10 @@ object Product {
                 180000,
                 "동래구 온천제2동",
                 31,
-                7
+                7,
+                "39.3°C",
+                R.drawable.lv4
+
             )
         )
         productList.add(
@@ -108,7 +127,9 @@ object Product {
                 30000,
                 "원주시 명륜2동",
                 7,
-                28
+                28,
+                "42.5°C",
+                R.drawable.lv4
             )
         )
         productList.add(
@@ -120,7 +141,9 @@ object Product {
                 190000,
                 "중구 동화동",
                 40,
-                6
+                6,
+                "56.3°C",
+                R.drawable.lv5
             )
         )
         return productList

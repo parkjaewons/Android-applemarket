@@ -41,10 +41,13 @@ class MainActivity : AppCompatActivity() {
             notification()
         }
 
-
+        // Spinner
+        val adList = resources.getStringArray(R.array.location)
+        val adAdapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, adList)
+        binding.spinner.adapter = adAdapter
     }
-
-
+    //알림
     private fun notification() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val builder: NotificationCompat.Builder =
@@ -85,6 +88,4 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
-
-
 }
