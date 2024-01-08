@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_nickname"
+                android:id="@+id/tv_denickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -71,7 +72,7 @@
                 android:layout_marginTop="4dp"
                 android:text="동래구 온천제2동"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_denickname" />
 
             <TextView
                 android:id="@+id/tv_temperature"
@@ -162,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:text="100,000"
             app:layout_constraintBottom_toBottomOf="parent"
