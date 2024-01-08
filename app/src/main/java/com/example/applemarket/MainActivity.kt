@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout.VERTICAL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
@@ -36,29 +37,30 @@ class MainActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, VERTICAL)
         recyclerView.addItemDecoration(decoration)
 
-        binding.button.setOnClickListener {
+        binding.notiButton.setOnClickListener {
             notification()
         }
 
 
     }
 
+
     private fun notification() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val builder: NotificationCompat.Builder
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "one-channel"
-            val channelName = "My Channel"
-            val channel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            manager.createNotificationChannel(channel)
-            builder = NotificationCompat.Builder(this, channelId)
-        } else {
-            builder = NotificationCompat.Builder(this)
-        }
+        val builder: NotificationCompat.Builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channelId = "one-channel"
+                val channelName = "My Channel"
+                val channel = NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                manager.createNotificationChannel(channel)
+                NotificationCompat.Builder(this, channelId)
+            } else {
+                NotificationCompat.Builder(this)
+            }
 
         builder.run {
             setSmallIcon(R.drawable.ic_launcher_background)
@@ -68,9 +70,9 @@ class MainActivity : AppCompatActivity() {
         manager.notify(11, builder.build())
     }
 
-
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
+
         val alertDialog = AlertDialog.Builder(this)
             .setIcon(R.drawable.chat)
             .setTitle("종료")
@@ -83,4 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
+
+
 }
