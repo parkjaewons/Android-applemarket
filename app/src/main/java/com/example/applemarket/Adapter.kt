@@ -5,12 +5,15 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.applemarket.databinding.ActivityMainBinding
 import com.example.applemarket.databinding.RecyclerviewItemBinding
 import java.text.DecimalFormat
 
-class Adapter(val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
-    private var onClickListener: OnClickListener? = null
+class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
+    interface ItemClick{
+        fun onClick(view: View,position: Int)
+    }
+    var itemClick : ItemClick?= null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.Holder {
         val binding =
             RecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,18 +32,15 @@ class Adapter(val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holde
         holder.price.text = format.format(money) + "원"
         holder.comment.text = item.itemcomment.toString()
         holder.heart.text = item.itemheartCount.toString()
+        holder.itemView.setOnClickListener {
+            if(itemClick != null){
+                itemClick!!.onClick(it,position)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return items.size
-    }
-
-    interface itemClick {
-        fun onClick(view: View, position: Int)
-    }
-
-    interface longClick {
-        fun onLongClick(view: View, position: Int)
     }
 
     inner class Holder(val binding: RecyclerviewItemBinding) :

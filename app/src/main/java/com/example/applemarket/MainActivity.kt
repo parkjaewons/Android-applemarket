@@ -3,13 +3,11 @@ package com.example.applemarket
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.media.AudioAttributes
-import android.media.RingtoneManager
-import android.net.Uri
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout.VERTICAL
 import androidx.appcompat.app.AlertDialog
@@ -33,12 +31,21 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
         //상품 사이에 회색 줄 추가
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val decoration = DividerItemDecoration(this, VERTICAL)
-        recyclerView.addItemDecoration(decoration)
+        binding.recyclerview.addItemDecoration(decoration)
 
         binding.notiButton.setOnClickListener {
             notification()
+        }
+
+        adapter.itemClick = object : Adapter.ItemClick{
+            override fun onClick(view: View, position: Int) {
+                val clickItem = productList[position]
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("position",position)
+                intent.putExtra("Item",clickItem)
+                startActivity(intent)
+            }
         }
 
         // Spinner
