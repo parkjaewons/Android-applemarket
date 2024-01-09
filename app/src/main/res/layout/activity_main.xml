@@ -59,16 +59,16 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_top"
+        style="@style/CustomFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="36dp"
         android:clickable="true"
         android:visibility="invisible"
-        style="@style/CustomFloatingButton"
-        app:rippleColor="#345AE1"
         app:fabCustomSize="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="#345AE1"
         app:srcCompat="@drawable/up_arrow" />
 
 

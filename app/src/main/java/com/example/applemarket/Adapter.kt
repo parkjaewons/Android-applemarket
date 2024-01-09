@@ -9,10 +9,11 @@ import com.example.applemarket.databinding.RecyclerviewItemBinding
 import java.text.DecimalFormat
 
 class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
-    interface ItemClick{
-        fun onClick(view: View,position: Int)
+    interface ItemClick {
+        fun onClick(view: View, position: Int)
     }
-    var itemClick : ItemClick?= null
+
+    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.Holder {
         val binding =
@@ -33,8 +34,8 @@ class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapt
         holder.comment.text = item.itemcomment.toString()
         holder.heart.text = item.itemheartCount.toString()
         holder.itemView.setOnClickListener {
-            if(itemClick != null){
-                itemClick!!.onClick(it,position)
+            if (itemClick != null) {
+                itemClick!!.onClick(it, position)
             }
         }
     }

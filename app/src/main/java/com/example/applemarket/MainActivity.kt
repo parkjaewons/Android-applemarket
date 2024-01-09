@@ -43,10 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         adapter.itemClick = object : Adapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                val clickItem = productList[position]
+                val clickProduct = productList[position]
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("position", position)
-                intent.putExtra("Item", clickItem)
+                intent.putExtra("Item", clickProduct)
                 startActivity(intent)
             }
         }
