@@ -15,7 +15,6 @@ object Product {
                 25,
                 "29.7°C",
                 R.drawable.lv1
-
             )
         )
         productList.add(
