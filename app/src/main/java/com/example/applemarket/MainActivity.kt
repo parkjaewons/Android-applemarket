@@ -8,10 +8,12 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout.VERTICAL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,16 +36,17 @@ class MainActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, VERTICAL)
         binding.recyclerview.addItemDecoration(decoration)
 
+        //알림 버튼
         binding.notiButton.setOnClickListener {
             notification()
         }
 
-        adapter.itemClick = object : Adapter.ItemClick{
+        adapter.itemClick = object : Adapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val clickItem = productList[position]
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("position",position)
-                intent.putExtra("Item",clickItem)
+                intent.putExtra("position", position)
+                intent.putExtra("Item", clickItem)
                 startActivity(intent)
             }
         }
@@ -53,7 +56,34 @@ class MainActivity : AppCompatActivity() {
         val adAdapter =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, adList)
         binding.spinner.adapter = adAdapter
+
+        //맨위로 가기 버튼
+        //addOnScrollListener = 현재 스크롤 상태 체크
+        var isTop = true
+        binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                //canScrollVertically = 스크롤이 최상단 , SCROLL_STATE_IDLE = 현재 스크롤 하지 않은 상태
+                if (!binding.recyclerview.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    binding.fabTop.visibility = View.INVISIBLE
+                    binding.fabTop.startAnimation(AlphaAnimation(1f, 0f).also {
+                        it.duration = 1000
+                    })
+                } else if (isTop) {
+                    binding.fabTop.visibility = View.VISIBLE
+                    binding.fabTop.startAnimation(AlphaAnimation(0f, 1f).also {
+                        it.duration = 1000
+                    })
+                    isTop = false
+                }
+            }
+        })
+        binding.fabTop.setOnClickListener {
+            //smoothScrollToPosition = 부드럽게 스크롤 상단으로 옮김
+            binding.recyclerview.smoothScrollToPosition(0)
+        }
     }
+
     //알림
     private fun notification() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -71,7 +101,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 NotificationCompat.Builder(this)
             }
-
         builder.run {
             setSmallIcon(R.drawable.ic_launcher_background)
             setContentTitle("키워드 알림")
@@ -82,17 +111,17 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-
-        val alertDialog = AlertDialog.Builder(this)
-            .setIcon(R.drawable.chat)
-            .setTitle("종료")
-            .setMessage("정말로 종료하시겠습니까?")
-            .setPositiveButton("확인") { dialog, _ ->
+        AlertDialog.Builder(this).apply {
+            setIcon(R.drawable.chat)
+            setTitle("종료")
+            setMessage("정말로 종료하시겠습니까?")
+            setPositiveButton("확인") { dialog, _ ->
                 finish()
             }
-            .setNegativeButton("취소") { dialog, _ ->
+            setNegativeButton("취소") { dialog, _ ->
                 dialog.dismiss()
             }
-            .show()
+            show()
+        }
     }
 }
