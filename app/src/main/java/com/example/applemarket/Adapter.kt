@@ -9,11 +9,16 @@ import com.example.applemarket.databinding.RecyclerviewItemBinding
 import java.text.DecimalFormat
 
 class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
+    var itemClick: ItemClick? = null
+    var longitemClick: LongItemClick? = null
+
     interface ItemClick {
         fun onClick(view: View, position: Int)
     }
 
-    var itemClick: ItemClick? = null
+    interface LongItemClick {
+        fun onLongClick(view: View, position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.Holder {
         val binding =
@@ -52,6 +57,24 @@ class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapt
         val price = binding.tvPrice
         val comment = binding.tvComment
         val heart = binding.tvHeart
+
+        init {
+            imageView.clipToOutline = true
+
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClick?.onClick(it, position)
+                }
+            }
+            binding.root.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    longitemClick?.onLongClick(it, position)
+                    true
+                } else false
+            }
+        }
     }
 
 }

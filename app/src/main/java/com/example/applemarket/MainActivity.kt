@@ -49,6 +49,26 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        // 롱클릭 아이템 삭제
+        adapter.longitemClick = object : Adapter.LongItemClick {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onLongClick(view: View, position: Int) {
+                val deleteItem = productList[position]
+                AlertDialog.Builder(this@MainActivity).apply {
+                    setIcon(R.drawable.chat)
+                    setTitle("삭제")
+                    setMessage("정말로 삭제하시겠습니까?")
+                    setPositiveButton("확인") { _, _ ->
+                        productList.remove(deleteItem)
+                        adapter.notifyDataSetChanged()
+                    }
+                    setNegativeButton("취소") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    show()
+                }
+            }
+        }
 
         // Spinner
         val adList = resources.getStringArray(R.array.location)
@@ -114,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             setIcon(R.drawable.chat)
             setTitle("종료")
             setMessage("정말로 종료하시겠습니까?")
-            setPositiveButton("확인") { dialog, _ ->
+            setPositiveButton("확인") { _, _ ->
                 finish()
             }
             setNegativeButton("취소") { dialog, _ ->
