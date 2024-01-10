@@ -12,8 +12,10 @@ data class Post(
     val itemnickname: String,
     val itemPrice: Int,
     val itemAddress: String,
-    val itemheartCount: Int,
+    var itemheartCount: Int,
     val itemcomment: Int,
     val usermanners: String,
     val mannersImage: Int,
+    var isLiked: Boolean = false
 ) : Parcelable
+

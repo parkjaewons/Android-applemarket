@@ -11,6 +11,9 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout.VERTICAL
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.os.bundleOf
@@ -21,6 +24,7 @@ import com.example.applemarket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,7 +50,8 @@ class MainActivity : AppCompatActivity() {
                 val clickProduct = productList[position]
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra("Item", clickProduct)
-                startActivity(intent)
+                intent.putExtra("likePosition", position)
+                activityResultLauncher.launch(intent)
             }
         }
         // 롱클릭 아이템 삭제
@@ -101,6 +106,23 @@ class MainActivity : AppCompatActivity() {
         binding.fabTop.setOnClickListener {
             //smoothScrollToPosition = 부드럽게 스크롤 상단으로 옮김
             binding.recyclerview.smoothScrollToPosition(0)
+        }
+
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == RESULT_OK) {
+                val likePosition = it.data?.getIntExtra("likePosition",0) as Int
+                val isLiked = it.data?.getBooleanExtra("isLiked",false) as Boolean
+                if (isLiked) {
+                    productList[likePosition].isLiked = true
+                    productList[likePosition].itemheartCount += 1
+                } else {
+                    if (productList[likePosition].isLiked) {
+                        productList[likePosition].isLiked = false
+                        productList[likePosition].itemheartCount -= 1
+                    }
+                }
+                adapter.notifyItemChanged(likePosition)
+            }
         }
     }
 
