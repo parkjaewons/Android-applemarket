@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                     setMessage("정말로 삭제하시겠습니까?")
                     setPositiveButton("확인") { _, _ ->
                         productList.remove(deleteItem)
+                        //notifyDataSetChanged = 아이템 데이터 업데이트
                         adapter.notifyDataSetChanged()
                     }
                     setNegativeButton("취소") { dialog, _ ->

@@ -1,5 +1,6 @@
 package com.example.applemarket
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import java.text.DecimalFormat
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -19,18 +21,19 @@ class DetailActivity : AppCompatActivity() {
         getItem?.let {
             val money = getItem.itemPrice
             val format = DecimalFormat("#,###")
-            binding.ivProduct.setImageResource(it.itemImage)
-            binding.tvDenickname.text = it.itemnickname
-            binding.tvDeadress.text = it.itemAddress
-            binding.tvTemperature.text = it.usermanners
-            binding.ivIcon.setImageResource(it.mannersImage)
-            binding.tvDeTitle.text = it.itemTitle
-            binding.tvDeinfo.text = it.itemInfo
-            binding.tvDeprice.text = "${format.format(money) + "원"}"
+            with(binding) {
+                ivProduct.setImageResource(it.itemImage)
+                tvDenickname.text = it.itemnickname
+                tvDeadress.text = it.itemAddress
+                tvTemperature.text = it.usermanners
+                ivIcon.setImageResource(it.mannersImage)
+                tvDeTitle.text = it.itemTitle
+                tvDeinfo.text = it.itemInfo
+                tvDeprice.text = "${format.format(money)}원"
+            }
         }
         binding.backButton.setOnClickListener {
-            val intent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 }

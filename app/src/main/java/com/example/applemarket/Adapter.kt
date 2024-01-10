@@ -1,5 +1,6 @@
 package com.example.applemarket
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -26,21 +27,24 @@ class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapt
         return Holder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Adapter.Holder, position: Int) {
         val item = items[position]
         //1000단위 마다 콤마(,) 출력
         val money = item.itemPrice
         val format = DecimalFormat("#,###")
 
-        holder.imageView.setImageResource(item.itemImage)
-        holder.titleText.text = item.itemTitle
-        holder.address.text = item.itemAddress
-        holder.price.text = format.format(money) + "원"
-        holder.comment.text = item.itemcomment.toString()
-        holder.heart.text = item.itemheartCount.toString()
-        holder.itemView.setOnClickListener {
-            if (itemClick != null) {
-                itemClick!!.onClick(it, position)
+        with(holder) {
+            imageView.setImageResource(item.itemImage)
+            titleText.text = item.itemTitle
+            address.text = item.itemAddress
+            price.text = "${format.format(money)}원"
+            comment.text = item.itemcomment.toString()
+            heart.text = item.itemheartCount.toString()
+            itemView.setOnClickListener {
+                if (itemClick != null) {
+                    itemClick!!.onClick(it, position)
+                }
             }
         }
     }
@@ -60,21 +64,21 @@ class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapt
 
         init {
             imageView.clipToOutline = true
-
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemClick?.onClick(it, position)
+            with(binding) {
+                root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        itemClick?.onClick(it, position)
+                    }
                 }
-            }
-            binding.root.setOnLongClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    longitemClick?.onLongClick(it, position)
-                    true
-                } else false
+                root.setOnLongClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        longitemClick?.onLongClick(it, position)
+                        true
+                    } else false
+                }
             }
         }
     }
-
 }
