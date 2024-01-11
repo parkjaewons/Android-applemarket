@@ -61,13 +61,22 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         binding.backButton.setOnClickListener {
-            val likePosition = intent.getIntExtra("likePosition", 0)
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("likePosition", likePosition)
-                putExtra("isLiked", isLiked)
-            }
-            setResult(Activity.RESULT_OK, intent)
-            if (!isFinishing) finish()
+            goToMain()
         }
+    }
+
+    private fun goToMain() {
+        val likePosition = intent.getIntExtra("likePosition", 0)
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("likePosition", likePosition)
+            putExtra("isLiked", isLiked)
+        }
+        setResult(RESULT_OK, intent)
+        if (!isFinishing) finish()
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        goToMain()
     }
 }

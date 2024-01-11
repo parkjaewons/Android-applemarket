@@ -16,6 +16,6 @@ data class Post(
     val itemcomment: Int,
     val usermanners: String,
     val mannersImage: Int,
-    var isLiked: Boolean = false
+    var isLiked: Boolean = false,
 ) : Parcelable
 

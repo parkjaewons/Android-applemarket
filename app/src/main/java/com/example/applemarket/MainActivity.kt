@@ -108,22 +108,22 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerview.smoothScrollToPosition(0)
         }
 
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if (it.resultCode == RESULT_OK) {
-                val likePosition = it.data?.getIntExtra("likePosition",0) as Int
-                val isLiked = it.data?.getBooleanExtra("isLiked",false) as Boolean
-                if (isLiked) {
-                    productList[likePosition].isLiked = true
-                    productList[likePosition].itemheartCount += 1
-                } else {
-                    if (productList[likePosition].isLiked) {
-                        productList[likePosition].isLiked = false
-                        productList[likePosition].itemheartCount -= 1
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    val likePosition = it.data?.getIntExtra("likePosition", 0) as Int
+                    val isLiked = it.data?.getBooleanExtra("isLiked", false) as Boolean
+                    if (isLiked) {
+                        productList[likePosition].isLiked = true
+                        productList[likePosition].itemheartCount++
+                    } else {
+                        if (productList[likePosition].isLiked) {
+                            productList[likePosition].isLiked = false
+                            productList[likePosition].itemheartCount--
+                        }
                     }
+                    adapter.notifyItemChanged(likePosition)
                 }
-                adapter.notifyItemChanged(likePosition)
             }
-        }
     }
 
     //알림
