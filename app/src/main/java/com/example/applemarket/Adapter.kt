@@ -11,13 +11,8 @@ import java.text.DecimalFormat
 
 class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapter.Holder>() {
     var itemClick: ItemClick? = null
-    var longitemClick: LongItemClick? = null
-
     interface ItemClick {
         fun onClick(view: View, position: Int)
-    }
-
-    interface LongItemClick {
         fun onLongClick(view: View, position: Int)
     }
 
@@ -74,7 +69,7 @@ class Adapter(private val items: MutableList<Post>) : RecyclerView.Adapter<Adapt
                 root.setOnLongClickListener {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
-                        longitemClick?.onLongClick(it, position)
+                        itemClick?.onLongClick(it, position)
                         true
                     } else false
                 }

@@ -3,10 +3,12 @@ package com.example.applemarket
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.ArrayAdapter
@@ -16,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var isTop = true
 
         val productList = Product.productData()
 
@@ -49,13 +53,12 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(view: View, position: Int) {
                 val clickProduct = productList[position]
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("Item", clickProduct)
+                intent.putExtra("Ite m", clickProduct)
                 intent.putExtra("likePosition", position)
                 activityResultLauncher.launch(intent)
             }
-        }
-        // 롱클릭 아이템 삭제
-        adapter.longitemClick = object : Adapter.LongItemClick {
+
+            //롱클릭 데이터 삭제
             @SuppressLint("NotifyDataSetChanged")
             override fun onLongClick(view: View, position: Int) {
                 val deleteItem = productList[position]
@@ -68,14 +71,11 @@ class MainActivity : AppCompatActivity() {
                         //notifyDataSetChanged = 아이템 데이터 업데이트
                         adapter.notifyDataSetChanged()
                     }
-                    setNegativeButton("취소") { dialog, _ ->
-                        dialog.dismiss()
-                    }
+                    setNegativeButton("취소", null)
                     show()
                 }
             }
         }
-
         // Spinner
         val adList = resources.getStringArray(R.array.location)
         val adAdapter =
@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
 
         //맨위로 가기 버튼
         //addOnScrollListener = 현재 스크롤 상태 체크
-        var isTop = true
         binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -108,7 +107,8 @@ class MainActivity : AppCompatActivity() {
             binding.recyclerview.smoothScrollToPosition(0)
         }
 
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
                     val likePosition = it.data?.getIntExtra("likePosition", 0) as Int
                     val isLiked = it.data?.getBooleanExtra("isLiked", false) as Boolean
@@ -148,21 +148,27 @@ class MainActivity : AppCompatActivity() {
             setContentTitle("키워드 알림")
             setContentText("설정한 키워드에 대한 알림이 도착했습니다!!")
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                // 알림 권한이 없다면, 사용자에게 권한 요청
+                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                }
+                startActivity(intent)
+            }
+        }
         manager.notify(11, builder.build())
     }
 
+    @Deprecated("Deprecated in Java")
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         AlertDialog.Builder(this).apply {
             setIcon(R.drawable.chat)
             setTitle("종료")
             setMessage("정말로 종료하시겠습니까?")
-            setPositiveButton("확인") { _, _ ->
-                finish()
-            }
-            setNegativeButton("취소") { dialog, _ ->
-                dialog.dismiss()
-            }
+            setPositiveButton("확인") { _, _ -> finish() }
+            setNegativeButton("취소", null)
             show()
         }
     }
