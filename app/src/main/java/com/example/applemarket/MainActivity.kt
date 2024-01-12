@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(view: View, position: Int) {
                 val clickProduct = productList[position]
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("Ite m", clickProduct)
+                intent.putExtra("Item", clickProduct)
                 intent.putExtra("likePosition", position)
                 activityResultLauncher.launch(intent)
             }
